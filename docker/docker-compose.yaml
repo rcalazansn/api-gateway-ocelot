@@ -1,0 +1,50 @@
+version: '3.7'
+
+services:
+
+  gateway:
+    image: rcalazansn/api-gateway:latest
+    container_name: api-gateway    
+    build: 
+        context: ../src
+        dockerfile: ./ApiGateway/Dockerfile  
+    ports:
+      - "8090:80"
+    restart: always
+    depends_on:
+      - api1
+      - api2
+    networks:
+      - apigateway_net
+
+  api1:
+    image: rcalazansn/api1:latest
+    container_name: api1-pedido
+    build: 
+        context: ../src
+        dockerfile: ./Api1/Dockerfile      
+    restart: always
+    environment:
+      - APP_NAME=APP-pedido
+    networks:
+      - apigateway_net
+    # ports:
+    #   - "8091:80"
+
+  api2:
+    image: rcalazansn/api2:latest
+    container_name: api2-transportadora
+    build: 
+        context: ../src
+        dockerfile: ./Api2/Dockerfile      
+    restart: always
+    environment:
+      - APP_NAME=APP-transportadora
+    networks:
+      - apigateway_net
+    # ports:
+    #   - "8092:80"
+
+networks:
+  apigateway_net: 
+    driver: bridge

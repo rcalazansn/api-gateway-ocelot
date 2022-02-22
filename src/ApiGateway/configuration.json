@@ -1,0 +1,60 @@
+﻿{
+  "GlobalConfiguration": {},
+  "Routes": [
+    {
+      "DownstreamPathTemplate": "/users",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "jsonplaceholder.typicode.com",
+          "Port": 443
+        }
+      ],
+      "UpstreamPathTemplate": "/test",
+      "UpstreamHttpMethod": [ "Get" ],
+      "RateLimitOptions": {
+        "ClientWhitelist": [],
+        "EnableRateLimiting": true,
+        "Period": "1s", //tempo entre as requisções
+        "PeriodTimespan": 5, //Apos quanto tempo pode ser tentato novamente (segundos)
+        "Limit": 10 //Limite de requisições por 'Period'
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/pedidos/{numero}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "api1-pedido",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/p/{numero}",
+      "UpstreamHttpMethod": [ "Get" ]
+    },
+    {
+      "DownstreamPathTemplate": "/pedidos",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "api1-pedido",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/p",
+      "UpstreamHttpMethod": [ "Get" ]
+    },
+    {
+      "DownstreamPathTemplate": "/transportadoras",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "api2-transportadora",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/t",
+      "UpstreamHttpMethod": [ "Get", "Post" ]
+    }
+  ]
+}
